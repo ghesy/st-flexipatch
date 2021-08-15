@@ -1899,42 +1899,20 @@ xdrawglyphfontspecs(const XftGlyphFontSpec *specs, Glyph base, int len, int x, i
 			#endif // VERTCENTER_PATCH
 
 			// Draw waves
-			int narcs = charlen * 2 + 1;
-			XArc *arcs = xmalloc(sizeof(XArc) * narcs);
-
-			int i = 0;
-			for (i = 0; i < charlen-1; i++) {
-				arcs[i*2] = (XArc) {
-					.x = wx + win.cw * i + ww / 4,
-					.y = wy,
-					.width = win.cw / 2,
-					.height = wh,
-					.angle1 = 0,
-					.angle2 = 180 * 64
-				};
-				arcs[i*2+1] = (XArc) {
-					.x = wx + win.cw * i + ww * 0.75,
-					.y = wy,
-					.width = win.cw/2,
-					.height = wh,
-					.angle1 = 180 * 64,
-					.angle2 = 180 * 64
+			int npoints = charlen * 2 + 1;
+			XPoint *points = xmalloc(sizeof(XPoint) * npoints);
+			points[0] = (XPoint) {
+				.x = wx,
+				.y = wy + wh
+			};
+			for (int i = 1; i < npoints; i++) {
+				points[i] = (XPoint) {
+				.x = ww/2,
+				.y = i % 2 ? -wh/2 : wh/2,
 				};
 			}
-			// Last wave
-			arcs[i*2] = (XArc) {wx + ww * i + ww / 4, wy, ww / 2, wh,
-			0, 180 * 64 };
-			// Last wave tail
-			arcs[i*2+1] = (XArc) {wx + ww * i + ww * 0.75, wy, ceil(ww / 2.),
-			wh, 180 * 64, 90 * 64};
-			// First wave tail
-			i++;
-			arcs[i*2] = (XArc) {wx - ww/4 - 1, wy, ceil(ww / 2.), wh, 270 * 64,
-			90 * 64 };
-
-			XDrawArcs(xw.dpy, XftDrawDrawable(xw.draw), ugc, arcs, narcs);
-
-			free(arcs);
+			XDrawLines(xw.dpy, XftDrawDrawable(xw.draw), ugc, points, npoints, CoordModePrevious);
+			free(points);
 		}
 
 		XFreeGC(xw.dpy, ugc);
