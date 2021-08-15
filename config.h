@@ -32,28 +32,26 @@ static MouseShortcut maltshortcuts[] = {
 #define MODKEY Mod1Mask
 #define TERMMOD (Mod1Mask|ShiftMask)
 
-static char *openurlcmd[] = { "/bin/sh", "-c",
-	"xurls | dmenu -l 10 -w $WINDOWID | xargs -r open",
-	"externalpipe", NULL };
+static char *urls[] = { "/bin/sh", "-c",
+    "xurls | ifne dmenu -l 10 -w $WINDOWID | xargs -r0 xdg-open", NULL };
+
+static char *bufedit[] = { "/bin/sh", "-c",
+    "st -e sh -c 'printf \"%s\\n\" \"$0\" | $EDITOR' \"$(cat)\"", NULL };
 
 static Shortcut shortcuts[] = {
 	/* mask                 keysym          function         argument */
-	{ XK_ANY_MOD,           XK_Break,       sendbreak,       {.i =  0} },
-	{ ControlMask,          XK_Print,       toggleprinter,   {.i =  0} },
-	{ ShiftMask,            XK_Print,       printscreen,     {.i =  0} },
-	{ XK_ANY_MOD,           XK_Print,       printsel,        {.i =  0} },
 	{ TERMMOD,              XK_K,           zoom,            {.f = +2} },
 	{ TERMMOD,              XK_J,           zoom,            {.f = -2} },
 	{ TERMMOD,              XK_N,           zoomreset,       {.f =  0} },
-	{ TERMMOD,              XK_C,           clipcopy,        {.i =  0} },
-	{ TERMMOD,              XK_V,           clippaste,       {.i =  0} },
+	{ MODKEY,               XK_c,           clipcopy,        {.i =  0} },
+	{ MODKEY,               XK_v,           clippaste,       {.i =  0} },
 	{ MODKEY,               XK_k,           kscrollup,       {.i =  3} },
 	{ MODKEY,               XK_j,           kscrolldown,     {.i =  3} },
-	{ TERMMOD,              XK_Y,           clippaste,       {.i =  0} },
-	{ ShiftMask,            XK_Insert,      clippaste,       {.i =  0} },
-	{ TERMMOD,              XK_Num_Lock,    numlock,         {.i =  0} },
+	{ MODKEY,               XK_u,           kscrollup,       {.i = 20} },
+	{ MODKEY,               XK_d,           kscrolldown,     {.i = 20} },
 	{ TERMMOD,              XK_U,           newterm,         {.i =  0} },
-	{ TERMMOD,              XK_U,           externalpipe,    { .v = openurlcmd } },
+	{ MODKEY,               XK_l,           externalpipe,    { .v = urls } },
+	{ MODKEY,               XK_o,           externalpipe,    { .v = bufedit } },
 };
 
 #include "config.ext.h"
