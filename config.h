@@ -22,6 +22,14 @@ static MouseShortcut mshortcuts[] = {
 	{ ShiftMask,            Button5, ttysend,        {.s = "\033[6;2~"} },
 };
 
+static char *pipeurl[] = { "/bin/sh", "-c",
+    "xurls | sort -u | ifne dmenu -p 'Select URL' -w $WINDOWID | xargs -r0 xdg-open"
+};
+
+static char *bufedit[] = { "/bin/sh", "-c",
+    "f=${XDG_RUNTIME_DIR:-/tmp}/bufedit-$$; trap 'rm -f $f' EXIT; cat > $f; st -e $EDITOR $f"
+};
+
 #define MODKEY Mod1Mask
 #define TERMMOD (Mod1Mask|ShiftMask)
 
@@ -33,6 +41,8 @@ static Shortcut shortcuts[] = {
 	{ MODKEY,               XK_c,           clipcopy,        {.i =  0} },
 	{ MODKEY,               XK_v,           clippaste,       {.i =  0} },
 	{ TERMMOD,              XK_U,           newterm,         {.i =  0} },
+	{ TERMMOD,              XK_L,           externalpipe,    {.v = pipeurl } },
+	{ TERMMOD,              XK_O,           externalpipe,    {.v = bufedit } },
 };
 
 #include "config.ext.h"
