@@ -17,9 +17,9 @@ static float cwscale = 1.0;
 static float chscale = 1.0;
 
 static MouseShortcut mshortcuts[] = {
-	/* mask                 button   function        argument       release */
-	{ ShiftMask,            Button4, ttysend,        {.s = "\033[5;2~"} },
-	{ ShiftMask,            Button5, ttysend,        {.s = "\033[6;2~"} },
+	/* mask       button    function  argument         */
+	{ ShiftMask,  Button4,  ttysend,  {.s = "\033[5;2~"} },
+	{ ShiftMask,  Button5,  ttysend,  {.s = "\033[6;2~"} },
 };
 
 static char *pipeurl[] = { "/bin/sh", "-c",
@@ -34,15 +34,15 @@ static char *bufedit[] = { "/bin/sh", "-c",
 #define TERMMOD (Mod1Mask|ShiftMask)
 
 static Shortcut shortcuts[] = {
-	/* mask                 keysym          function         argument */
-	{ TERMMOD,              XK_K,           zoom,            {.f = +2} },
-	{ TERMMOD,              XK_J,           zoom,            {.f = -2} },
-	{ TERMMOD,              XK_N,           zoomreset,       {.f =  0} },
-	{ MODKEY,               XK_c,           clipcopy,        {.i =  0} },
-	{ MODKEY,               XK_v,           clippaste,       {.i =  0} },
-	{ TERMMOD,              XK_U,           newterm,         {.i =  0} },
-	{ TERMMOD,              XK_L,           externalpipe,    {.v = pipeurl } },
-	{ TERMMOD,              XK_O,           externalpipe,    {.v = bufedit } },
+	/* mask    keysym  function    argument */
+	{ TERMMOD,  XK_K,  zoom,          {.f = +2} },
+	{ TERMMOD,  XK_J,  zoom,          {.f = -2} },
+	{ TERMMOD,  XK_N,  zoomreset,     {.f =  0} },
+	{ MODKEY,   XK_c,  clipcopy,      {.i =  0} },
+	{ MODKEY,   XK_v,  clippaste,     {.i =  0} },
+	{ TERMMOD,  XK_U,  newterm,       {.i =  0} },
+	{ TERMMOD,  XK_L,  externalpipe,  {.v = pipeurl } },
+	{ TERMMOD,  XK_O,  externalpipe,  {.v = bufedit } },
 };
 
 #include "config.ext.h"
