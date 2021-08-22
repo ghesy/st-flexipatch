@@ -23,7 +23,7 @@ static MouseShortcut mshortcuts[] = {
 };
 
 static char *pipeurl[] = { "/bin/sh", "-c",
-    "xurls | sort -u | ifne dmenu -p 'Select URL' -w $WINDOWID | xargs -r0 xdg-open"
+    "xurls | sort -u | ifne dmenu -p 'Select URL' -l 10 -w $WINDOWID | xargs -r0 xdg-open"
 };
 
 static char *bufedit[] = { "/bin/sh", "-c",
