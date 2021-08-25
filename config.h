@@ -23,6 +23,7 @@ static MouseShortcut mshortcuts[] = {
 };
 
 static char *pipeurl[] = { "/bin/sh", "-c",
+    "if command -v pipeurl >/dev/null; then pipeurl; exit; fi;"
     "xurls | sort -u | ifne dmenu -p 'Select URL' -l 10 -w $WINDOWID | xargs -r0 xdg-open"
 };
 
