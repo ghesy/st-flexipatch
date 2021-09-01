@@ -2,11 +2,9 @@
 
 static char *font = "Fira Mono:pixelsize=16:antialias=true:autohint=true";
 static char *font2[] = {
-	"Symbols Nerd Font:pixelsize=13:antialias=true:autohint=true",
 	"DejaVu Sans Mono:pixelsize=16:antialias=true:autohint=true",
-	"JoyPixels:pixelsize=12:antialias=true:autohint=true",
-	"Braille:pixelsize=16:antialias=true:autohint=true",
-	"Vazir:pixelsize=16:antialias=true:autohint=true",
+	"Symbols Nerd Font:pixelsize=13:antialias=true:autohint=true",
+	"JoyPixels:pixelsize=13:antialias=true:autohint=true",
 };
 
 static unsigned int cursorthickness = 1;
