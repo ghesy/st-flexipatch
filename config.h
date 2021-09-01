@@ -26,7 +26,7 @@ static char *pipeurl[] = { "/bin/sh", "-c",
 };
 
 static char *bufedit[] = { "/bin/sh", "-c",
-    "f=${XDG_RUNTIME_DIR:-/tmp}/bufedit-$$; trap 'rm -f $f' EXIT; cat > $f; st -e $EDITOR $f"
+    "f=$(mktemp bufedit.XXXXXX) || exit; trap 'rm -f ${f:?}' EXIT; cat > ${f:?}; st -e $EDITOR $f"
 };
 
 #define MODKEY Mod1Mask
