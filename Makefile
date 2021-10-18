@@ -24,10 +24,10 @@ patches.h:
 .c.o:
 	$(CC) $(STCFLAGS) -c $<
 
-st.o: config.h config.ext.h st.h win.h
-x.o: arg.h config.h config.ext.h st.h win.h $(LIGATURES_H)
+st.o: config.h st.h win.h
+x.o: arg.h config.h st.h win.h $(LIGATURES_H)
 
-$(OBJ): config.h config.ext.h config.mk patches.h
+$(OBJ): config.h config.mk patches.h
 
 st: $(OBJ)
 	$(CC) -o $@ $(OBJ) $(STLDFLAGS)
