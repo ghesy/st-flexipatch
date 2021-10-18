@@ -26,7 +26,7 @@ static char *pipeurl[] = { "/bin/sh", "-c",
 };
 
 static char *bufedit[] = { "/bin/sh", "-c",
-    "f=$(mktemp bufedit.XXXXXX) || exit; trap 'rm -f ${f:?}' EXIT; cat > ${f:?}; st -e $EDITOR $f"
+    "f=$(mktemp) || exit; trap 'rm -f \"${f:?}\"' EXIT; cat > \"${f:?}\"; st -e $EDITOR \"$f\""
 };
 
 #define MODKEY Mod1Mask
