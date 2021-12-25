@@ -29,7 +29,7 @@
  */
 #define ALPHA_GRADIENT_PATCH 0
 
-/* This patch allows st to reize to any pixel size rather than snapping to character width/height.
+/* This patch allows st to resize to any pixel size rather than snapping to character width/height.
  * https://st.suckless.org/patches/anysize/
  */
 #define ANYSIZE_PATCH 0
@@ -93,6 +93,12 @@
  * https://st.suckless.org/patches/copyurl/
  */
 #define COPYURL_HIGHLIGHT_SELECTED_URLS_PATCH 0
+
+/* This patch adds support for CSI escape sequences 22 and 23, which save and
+ * restores the window title (for instance nvim does this when opening and closing).
+ * https://st.suckless.org/patches/csi_22_23/
+ */
+#define CSI_22_23_PATCH 0
 
 /* According to the specification (see link in BLINKING_CURSOR_PATCH) the "Set cursor style
  * (DECSCUSR), VT520." escape sequences define both values of 0 and 1 as a blinking block,

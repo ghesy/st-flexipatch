@@ -1073,6 +1073,7 @@ ttynew(const char *line, char *cmd, const char *out, char **args)
 		break;
 	case 0:
 		close(iofd);
+		close(m);
 		setsid(); /* create a new process group */
 		dup2(s, 0);
 		dup2(s, 1);
@@ -1081,6 +1082,8 @@ ttynew(const char *line, char *cmd, const char *out, char **args)
 			die("ioctl TIOCSCTTY failed: %s\n", strerror(errno));
 		close(s);
 		close(m);
+		if (s > 2)
+				close(s);
 #ifdef __OpenBSD__
 		if (pledge("stdio getpw proc exec", NULL) == -1)
 			die("pledge\n");
@@ -1089,7 +1092,7 @@ ttynew(const char *line, char *cmd, const char *out, char **args)
 		break;
 	default:
 #ifdef __OpenBSD__
-		#if RIGHTCLICKTOPLUMB_PATCH
+		#if RIGHTCLICKTOPLUMB_PATCH || OPENCOPIED_PATCH
 		if (pledge("stdio rpath tty proc ps exec", NULL) == -1)
 		#else
 		if (pledge("stdio rpath tty proc", NULL) == -1)
@@ -2314,6 +2317,36 @@ csihandle(void)
 	case 's': /* DECSC -- Save cursor position (ANSI.SYS) */
 		tcursor(CURSOR_SAVE);
 		break;
+	#if CSI_22_23_PATCH
+	case 't': /* title stack operations */
+		switch (csiescseq.arg[0]) {
+		case 22: /* pust current title on stack */
+			switch (csiescseq.arg[1]) {
+			case 0:
+			case 1:
+			case 2:
+				xpushtitle();
+				break;
+			default:
+				goto unknown;
+			}
+			break;
+		case 23: /* pop last title from stack */
+			switch (csiescseq.arg[1]) {
+			case 0:
+			case 1:
+			case 2:
+				xsettitle(NULL, 1);
+				break;
+			default:
+				goto unknown;
+			}
+			break;
+		default:
+			goto unknown;
+		}
+		break;
+	#endif // CSI_22_23_PATCH
 	case 'u': /* DECRC -- Restore cursor position (ANSI.SYS) */
 		tcursor(CURSOR_LOAD);
 		break;
@@ -2379,7 +2412,11 @@ strhandle(void)
 		switch (par) {
 		case 0:
 			if (narg > 1) {
+				#if CSI_22_23_PATCH
+				xsettitle(strescseq.args[1], 0);
+				#else
 				xsettitle(strescseq.args[1]);
+				#endif // CSI_22_23_PATCH
 				xseticontitle(strescseq.args[1]);
 			}
 			return;
@@ -2389,7 +2426,11 @@ strhandle(void)
 			return;
 		case 2:
 			if (narg > 1)
+				#if CSI_22_23_PATCH
+				xsettitle(strescseq.args[1], 0);
+				#else
 				xsettitle(strescseq.args[1]);
+				#endif // CSI_22_23_PATCH
 			return;
 		case 52:
 			if (narg > 2 && allowwindowops) {
@@ -2469,7 +2510,11 @@ strhandle(void)
 		}
 		break;
 	case 'k': /* old title set compatibility */
+		#if CSI_22_23_PATCH
+		xsettitle(strescseq.args[0], 0);
+		#else
 		xsettitle(strescseq.args[0]);
+		#endif // CSI_22_23_PATCH
 		return;
 	case 'P': /* DCS -- Device Control String */
 		#if SIXEL_PATCH
@@ -2905,6 +2950,9 @@ eschandle(uchar ascii)
 		break;
 	case 'c': /* RIS -- Reset to initial state */
 		treset();
+		#if CSI_22_23_PATCH
+		xfreetitlestack();
+		#endif // CSI_22_23_PATCH
 		resettitle();
 		xloadcols();
 		break;
@@ -3326,7 +3374,11 @@ tresize(int col, int row)
 void
 resettitle(void)
 {
+	#if CSI_22_23_PATCH
+	xsettitle(NULL, 0);
+	#else
 	xsettitle(NULL);
+	#endif // CSI_22_23_PATCH
 }
 
 void

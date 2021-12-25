@@ -1,4 +1,4 @@
-Similar to [dwm-flexipatch](https://github.com/bakkeby/dwm-flexipatch) this st 0.8.4 (2ec571a, 2021-07-18) project has a different take on st patching. It uses preprocessor directives to decide whether or not to include a patch during build time. Essentially this means that this build, for better or worse, contains both the patched _and_ the original code. The aim being that you can select which patches to include and the build will contain that code and nothing more.
+Similar to [dwm-flexipatch](https://github.com/bakkeby/dwm-flexipatch) this st 0.8.4 (2f6e597, 2021-08-24) project has a different take on st patching. It uses preprocessor directives to decide whether or not to include a patch during build time. Essentially this means that this build, for better or worse, contains both the patched _and_ the original code. The aim being that you can select which patches to include and the build will contain that code and nothing more.
 
 For example to include the `alpha` patch then you would only need to flip this setting from 0 to 1 in [patches.h](https://github.com/bakkeby/st-flexipatch/blob/master/patches.def.h):
 ```c
@@ -14,6 +14,8 @@ Refer to [https://st.suckless.org/](https://st.suckless.org/) for details on the
 ---
 
 ### Changelog:
+
+2021-08-18 - Added the CSI 22 & 23 patch
 
 2021-07-26 - Added columns patch
 
@@ -88,7 +90,8 @@ Refer to [https://st.suckless.org/](https://st.suckless.org/) for details on the
       - allows st to reize to any pixel size rather than snapping to character width / height
 
    - [anysize_nobar](https://github.com/connor-brooks/st-anysize-nobar)
-      - a patch that aims to prevent black bars being drawn on the edges of st terminals using the anysize patch
+      - a patch that aims to prevent black bars being drawn on the edges of st terminals using the
+        anysize patch
 
    - [blinking-cursor](https://st.suckless.org/patches/blinking_cursor/)
       - allows the use of a blinking cursor
@@ -111,6 +114,10 @@ Refer to [https://st.suckless.org/](https://st.suckless.org/) for details on the
    - [copyurl](https://st.suckless.org/patches/copyurl/)
       - this patch allows you to select and copy the last URL displayed with Mod+l
       - multiple invocations cycle through the available URLs
+
+   - [csi_23_23](https://st.suckless.org/patches/csi_22_23/)
+      - adds support for CSI escape sequences 22 and 23, which save and restores the window title
+        (for instance nvim does this when opening and closing)
 
    - default-cursor
       - minor change allowing escape sequences like `\e[ q` or `\e[0 q` to set the cursor back to default configuration instead of a blinking block
