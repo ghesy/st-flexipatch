@@ -78,10 +78,11 @@ static int bellvolume = 0;
 
 char *termname = "st-256color";
 
-/* Terminal colors (16 first used in escape sequence) */
+/* Terminal colors (16 first used in escape sequence)
+   Alternate bg color: #021b21 */
 static const char *colorname[] = {
 	/* 8 normal colors */
-	"#021b21",
+	"#0f161e",
 	"#bf616a",
 	"#a3be8c",
 	"#ebcb8b",
@@ -104,16 +105,14 @@ static const char *colorname[] = {
 
 	/* more colors can be added after 255 to use with DefaultXX */
 	"#999999", /* 256 -> cursor */
-	"#bbbbbb", /* 257 -> rev cursor*/
-	"#021b21", /* 258 -> bg */
+	"#bbbbbb", /* 257 -> rev cursor */
+	"#0f161e", /* 258 -> bg */
 	"#d8dee9", /* 259 -> fg */
 };
-
 unsigned int defaultbg = 0;
 unsigned int defaultfg = 259;
 unsigned int defaultcs = 256;
 unsigned int defaultrcs = 257;
-
 
 static unsigned int cols = 80;
 static unsigned int rows = 24;
@@ -125,39 +124,6 @@ static unsigned int mousebg = 0;
 
 static uint forcemousemod = ShiftMask;
 static unsigned int defaultattr = 11;
-
-ResourcePref resources[] = {
-		{ "color0",       STRING,  &colorname[0] },
-		/* { "color1",       STRING,  &colorname[1] }, */
-		/* { "color2",       STRING,  &colorname[2] }, */
-		/* { "color3",       STRING,  &colorname[3] }, */
-		/* { "color4",       STRING,  &colorname[4] }, */
-		/* { "color5",       STRING,  &colorname[5] }, */
-		/* { "color6",       STRING,  &colorname[6] }, */
-		/* { "color7",       STRING,  &colorname[7] }, */
-		/* { "color8",       STRING,  &colorname[8] }, */
-		/* { "color9",       STRING,  &colorname[9] }, */
-		/* { "color10",      STRING,  &colorname[10] }, */
-		/* { "color11",      STRING,  &colorname[11] }, */
-		/* { "color12",      STRING,  &colorname[12] }, */
-		/* { "color13",      STRING,  &colorname[13] }, */
-		/* { "color14",      STRING,  &colorname[14] }, */
-		/* { "color15",      STRING,  &colorname[15] }, */
-		{ "background",   STRING,  &colorname[258] },
-		/* { "foreground",   STRING,  &colorname[259] }, */
-		/* { "cursorColor",  STRING,  &colorname[256] }, */
-		/* { "termname",     STRING,  &termname }, */
-		/* { "shell",        STRING,  &shell }, */
-		/* { "minlatency",   INTEGER, &minlatency }, */
-		/* { "maxlatency",   INTEGER, &maxlatency }, */
-		/* { "blinktimeout", INTEGER, &blinktimeout }, */
-		/* { "bellvolume",   INTEGER, &bellvolume }, */
-		/* { "tabspaces",    INTEGER, &tabspaces }, */
-		/* { "borderpx",     INTEGER, &borderpx }, */
-		/* { "cwscale",      FLOAT,   &cwscale }, */
-		/* { "chscale",      FLOAT,   &chscale }, */
-		/* { "alpha",        FLOAT,   &alpha }, */
-};
 
 static KeySym mappedkeys[] = { -1 };
 static uint ignoremod = Mod2Mask|XK_SWITCH_MOD;
@@ -384,28 +350,27 @@ static char ascii_printable[] =
 	"@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
 	"`abcdefghijklmnopqrstuvwxyz{|}~";
 
-#if UNDERCURL_PATCH
-/**
- * Undercurl style. Set UNDERCURL_STYLE to one of the available styles.
- *
- * Curly: Dunno how to draw it *shrug*
- *  _   _   _   _
- * ( ) ( ) ( ) ( )
- *	 (_) (_) (_) (_)
- *
- * Spiky:
- * /\  /\   /\	/\
- *   \/  \/	  \/
- *
- * Capped:
- *	_     _     _
- * / \   / \   / \
- *    \_/   \_/
- */
-// Available styles
+/*
+  Undercurl style. Set UNDERCURL_STYLE to one of the available styles.
+
+  Curly: Dunno how to draw it *shrug*
+   _   _   _   _
+  ( ) ( ) ( ) ( )
+   (_) (_) (_) (_)
+
+  Spiky:
+  /\  /\   /\	/\
+    \/  \/	  \/
+
+  Capped:
+  _     _     _
+  / \   / \   / \
+     \_/   \_/
+*/
+
+/* Available styles: */
 #define UNDERCURL_CURLY 0
 #define UNDERCURL_SPIKY 1
 #define UNDERCURL_CAPPED 2
-// Active style
+/* Active style: */
 #define UNDERCURL_STYLE UNDERCURL_SPIKY
-#endif // UNDERCURL_PATCH
