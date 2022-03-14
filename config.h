@@ -79,27 +79,30 @@ static int bellvolume = 0;
 char *termname = "st-256color";
 
 /* Terminal colors (16 first used in escape sequence)
-   Alternate bg color: #021b21 */
+ * bg colors:
+ *   dark blue: #021b21
+ *   darker blue: #0f161e */
 static const char *colorname[] = {
+
 	/* 8 normal colors */
-	"#0f161e",
-	"#bf616a",
-	"#a3be8c",
-	"#ebcb8b",
-	"#81a1c1",
-	"#b48ead",
-	"#88c0d0",
-	"#e5e9f0",
+	"#0f161e", /* normal: #282828 / hard contrast: #1d2021 / soft contrast: #32302f */
+	"#ea6962", /* red     */
+	"#a9b665", /* green   */
+	"#d8a657", /* yellow  */
+	"#7daea3", /* blue    */
+	"#d3869b", /* magenta */
+	"#89b482", /* cyan    */
+	"#d4be98", /* white   */
 
 	/* 8 bright colors */
-	"#4c566a",
-	"#bf616a",
-	"#a3be8c",
-	"#ebcb8b",
-	"#81a1c1",
-	"#b48ead",
-	"#8fbcbb",
-	"#eceff4",
+	"#928374", /* black   */
+	"#ef938e", /* red     */
+	"#bbc585", /* green   */
+	"#e1bb7e", /* yellow  */
+	"#9dc2ba", /* blue    */
+	"#e1acbb", /* magenta */
+	"#a7c7a2", /* cyan    */
+	"#e2d3ba", /* white   */
 
 	[255] = 0,
 
